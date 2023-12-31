@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: white;
+        color: black;
+        flex-direction: column;
+      }
+
+      #countdown {
+        font-size: 40px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      #countdown-label {
+        font-size: 40px;
+        color: black;
+        font-weight: bold;
+      }
+
+      #animation {
+        display: none;
+      }
+
+      @keyframes confetti {
+        0% {
+          transform: translateY(0) rotate(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(300px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #e44d26;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        animation: confetti 3s ease-out infinite;
+      }
+
+      #head1 {
+        font-size: 50px;
+        color: black;
+      }
+
+      #p1 {
+        color: black;
+        font-size: 20px;
+      }
+
+      #p2 {
+        color: gray;
+        float: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="countdown">
+      <span id="countdown-label">New Year Countdown:</span><br /><br />
+    </div>
+    <div id="animation"></div>
+    <div id="wish" style="display: none; text-align: center">
+      <h2 id="head1">Happy New Year Akka!</h2>
+      <p id="p1">
+        "May the coming year be filled with joy, success, and prosperity!"
+      </p>
+      <p id="p2">-From Nainu</p>
+    </div>
+
+    <audio id="newYearAudio" src="new_year.mp3" preload="auto"></audio>
+
+    <script>
+      function updateCountdown() {
+        const now = new Date();
+        const newYear = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0, 0);
+        const timeLeft = newYear - now;
+
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        const countdownElement = document.getElementById("countdown");
+        const animationElement = document.getElementById("animation");
+        const wishElement = document.getElementById("wish");
+
+        if (timeLeft <= 0) {
+          countdownElement.style.display = "none";
+          animationElement.style.display = "block";
+          wishElement.style.display = "block";
+          startAnimation();
+          playNewYearAudio();
+        } else {
+          countdownElement.innerHTML = `<span id="countdown-label">New Year Countdown:</span><br><br> ${days}d ${hours}h ${minutes}m ${seconds}s`;
+          setTimeout(updateCountdown, 1000);
+        }
+      }
+
+      function startAnimation() {
+        const animationContainer = document.getElementById("animation");
+
+        for (let i = 0; i < 50; i++) {
+          const confetti = document.createElement("div");
+          confetti.className = "confetti";
+          confetti.style.left = Math.random() * 100 + "vw";
+          confetti.style.animationDuration = Math.random() * 3 + 1 + "s";
+          animationContainer.appendChild(confetti);
+        }
+      }
+
+      function playNewYearAudio() {
+        const audio = document.getElementById("newYearAudio");
+        audio.play();
+      }
+
+      updateCountdown();
+    </script>
+  </body>
+</html>

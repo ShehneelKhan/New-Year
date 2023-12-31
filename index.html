@@ -58,6 +58,14 @@
         font-size: 50px;
         color: black;
       }
+      #welcome {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 40px;
+        font-weight: 500;
+        color: Green;
+        margin-top: -5rem;
+        display: None;
+      }
 
       #p1 {
         color: black;
@@ -75,6 +83,7 @@
       <span id="countdown-label">New Year Countdown:</span><br /><br />
     </div>
     <div id="animation"></div>
+    <h2 id="welcome">Welcome 2024 !</h2>
     <div id="wish" style="display: none; text-align: center">
       <h2 id="head1">Happy New Year Akka!</h2>
       <p id="p1">
@@ -89,7 +98,7 @@
       function updateCountdown() {
         const now = new Date();
         const newYear = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0, 0);
-        const timeLeft = 0; //newYear - now;
+        const timeLeft = newYear - now;
 
         const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
         const hours = Math.floor(
@@ -102,12 +111,14 @@
         const countdownElement = document.getElementById("countdown");
         const animationElement = document.getElementById("animation");
         const wishElement = document.getElementById("wish");
+        const welcome = document.getElementById("welcome");
 
         if (timeLeft <= 0) {
           countdownElement.style.display = "none";
           animationElement.style.display = "block";
           wishElement.style.display = "block";
           bodyElement.style.backgroundColor = "white";
+          welcome.style.display = "block";
           startAnimation();
           playNewYearAudio();
         } else {
